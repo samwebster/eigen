@@ -86,7 +86,7 @@ class vml_assign_traits
     typedef CwiseUnaryOp<scalar_##EIGENOP##_op<EIGENTYPE>, SrcXprNested> SrcXprType;                                            \
     static void run(DstXprType &dst, const SrcXprType &src, const assign_op<EIGENTYPE,EIGENTYPE> &/*func*/) {                   \
       eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());                                                       \
-      if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
+      if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==int(LinearTraversal)) {                                              \
         VMLOP(dst.size(), (const VMLTYPE*)src.nestedExpression().data(),                                                        \
               (VMLTYPE*)dst.data() EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_##VMLMODE) );                                           \
       } else {                                                                                                                  \
@@ -147,7 +147,7 @@ EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(ceil,  Ceil,   _)
     static void run(DstXprType &dst, const SrcXprType &src, const assign_op<EIGENTYPE,EIGENTYPE> &/*func*/) {                 \
       eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());                                                     \
       VMLTYPE exponent = reinterpret_cast<const VMLTYPE&>(src.rhs().functor().m_other);                                       \
-      if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal)                                              \
+      if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==int(LinearTraversal))                                              \
       {                                                                                                                       \
         VMLOP( dst.size(), (const VMLTYPE*)src.lhs().data(), exponent,                                                        \
               (VMLTYPE*)dst.data() EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_##VMLMODE) );                                         \
